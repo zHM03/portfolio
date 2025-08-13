@@ -1,0 +1,192 @@
+/* ===== Temel Stil ===== */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    overflow-x: hidden;
+    font-family: "DM Serif Text", serif;
+}
+
+body {
+    background: linear-gradient(to bottom, #000000, #0d1b4c);
+    color: white;
+}
+
+/* ===== Header ===== */
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    left: 0;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.048);
+    backdrop-filter: blur(10px);
+}
+
+/* ===== H1 Başlık ===== */
+.main-title {
+    text-align: center;
+    margin-top: 50px;
+    font-family: "Oleo Script", system-ui;
+    font-size: 4rem;
+    white-space: nowrap;
+    /* masaüstünde tek satır */
+}
+
+/* ===== Container ===== */
+.main-container {
+    width: 100%;
+    padding: 50px 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 50px;
+    max-width: 1000px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+/* ===== Sol Metin Blok ===== */
+.text-block {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.text-block h2 {
+    font-size: 3rem;
+}
+
+.text-block p {
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.027);
+    backdrop-filter: blur(5px);
+    padding: 15px 20px;
+    border-radius: 15px;
+}
+
+/* ===== Sağ Blok ===== */
+.right-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.image-block img {
+    width: 400px;
+    max-width: 90vw;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+/* ===== Social Box ===== */
+.social-box {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    width: fit-content;
+    /* 🔹 İçeriğe göre genişlik */
+    margin: 20px auto 0;
+    /* 🔹 Ortalamak için */
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    opacity: 0;
+}
+
+.social-box a img {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.social-box a img:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+/* ===== Starfield ===== */
+#starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* ===== Mobil Uyumluluk ===== */
+@media (max-width: 772px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 30px;
+        padding: 20px;
+    }
+
+    .main-title {
+        white-space: normal;
+        /* tek satır yerine sarmasını sağlar */
+        display: inline-block;
+        /* kelime bloklarını düzgün hizalar */
+        word-wrap: break-word;
+        /* kelime sarmasını sağlar */
+        font-size: 3rem;
+        /* mobilde fontu biraz küçült */
+    }
+
+
+    .text-block,
+    .right-block {
+        align-items: center;
+    }
+
+    .image-block img {
+        width: 250px;
+    }
+
+    /* 🔹 Social Box Mobil Düzenleme */
+    .social-box {
+        flex-wrap: wrap;
+        /* ikonlar alt satıra geçebilir */
+        gap: 20px;
+        /* iconlar arası boşluk azaltıldı */
+        padding: 15px;
+        /* padding küçültüldü */
+        width: fit-content;
+        /* ekranı kaplamasın */
+        margin: 20px auto 0;
+        /* ortalanmış */
+    }
+
+    .social-box a img {
+        width: 40px;
+        /* ikonlar daha küçük */
+        height: 40px;
+    }
+}
+
+/* Daha küçük ekranlar için */
+@media (max-width: 480px) {
+    .image-block img {
+        width: 200px;
+    }
+
+    .social-box a img {
+        width: 35px;
+        height: 35px;
+    }
+}
