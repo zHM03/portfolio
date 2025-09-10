@@ -2,56 +2,168 @@
 <html lang="tr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HM</title>
-
-    <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Oleo+Script:wght@400;700&display=swap"
-        rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Oleo+Script:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <h1>HM</h1>
-        </div>
-    </header>
+  <!-- ===== Hero Section ===== -->
+  <section class="hero-section">
     <canvas id="starfield"></canvas>
-
-    <div class="main-container">
-        <h1 class="main-title">Hisham Alkhatib</h1>
-        <div class="container">
-            <div class="text-block">
-                <h2>Full-Stack Developer</h2>
-                <p id="description">
-                    I build worlds from ideas, where curiosity ignites, boundaries break, and experiences endure.
-                </p>
-            </div>
-            <div class="image-block">
-                <img src="assets/me.png" alt="ben">
-            </div>
-        </div>
-        <div class="social-box">
-            <a href="#"><img src="assets/github.png" alt="Github"></a>
-            <a href="#"><img src="assets/instagram.png" alt="Instagram"></a>
-            <a href="#"><img src="assets/linkedin.png" alt="LinkedIn"></a>
-        </div>
+    <h1 class="main-title">Hisham Alkhatib</h1>
+    <div class="container">
+      <div class="text-block">
+        <h2>Full-Stack Developer</h2>
+        <p>I build worlds from ideas, where curiosity ignites, boundaries break, and experiences endure.</p>
+      </div>
+      <div class="image-block">
+        <img src="assets/me.png" alt="ben">
+      </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+    <div class="social-box">
+      <a href="#"><img src="assets/github.png" alt="Github"></a>
+      <a href="#"><img src="assets/instagram.png" alt="Instagram"></a>
+      <a href="#"><img src="assets/linkedin.png" alt="LinkedIn"></a>
+    </div>
+  </section>
 
-    <script src="script.js"></script>
+  <section class="about-skills">
+    <div class="about-section">
+      <h1 class="about-title">About me</h1>
+      <p class="about-me">I am a passionate and self-motivated developer with a strong interest in web and software
+        development. My skill set includes core web technologies such as HTML, CSS, and JavaScript, as well as
+        backend
+        development with Python. I also have experience working with React, Django, WordPress, and REST APIs,
+        alongside
+        database management using MySQL.
+        I enjoy creating modern, responsive, and user-friendly applications, with a focus on both functionality and
+        design aesthetics. My approach is driven by continuous learning, problem-solving, and delivering efficient
+        solutions.
+        Currently, I am improving my expertise by working on various personal and academic projects, aiming to grow
+        into
+        a versatile full-stack developer. My long-term goal is to contribute to innovative projects that merge
+        technology with practical impact.</p>
+    </div>
+
+    <div class="skills-section">
+      <div class="skills-card">
+        <span class="title">My Skills</span>
+        <div class="card__tags">
+          <ul class="tag">
+            <li class="tag__name">HTML</li>
+            <li class="tag__name">CSS</li>
+            <li class="tag__name">JavaScript</li>
+            <li class="tag__name">React</li>
+            <li class="tag__name">Bootstrap</li>
+            <li class="tag__name">GSAP</li>
+            <li class="tag__name">Python</li>
+            <li class="tag__name">Django</li>
+            <li class="tag__name">Flask</li>
+            <li class="tag__name">Kivy</li>
+            <li class="tag__name">REST API</li>
+            <li class="tag__name">MySQL</li>
+            <li class="tag__name">Git</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Projects Section ===== -->
+  <section class="project-section">
+    <div class="project-container">
+      <!-- Sol sabit alan -->
+      <div class="left">
+        <div class="left-content">
+          <h1 class="project-title">My Projects</h1>
+          <p class="project-desc">
+            I’ve been helping brands realise their online potential from small and medium sized
+            enterprises to large corporate entities, as a solo developer or as part of a larger team.
+          </p>
+          <div class="categories">
+            <span>Websites</span>
+            <span>Programs</span>
+            <span>Automation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sağ kaydırılabilir kartlar -->
+      <div class="right">
+        <div class="project-category" data-title="Websites" data-color="#ff4c60">
+          <div class="card">
+            <img src="assets/visenta.png" alt="visenta">
+            <h3>Visenta</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+          </div>
+          <div class="card">
+            <img src="assets/hmburger.png" alt="hmburger">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+          </div>
+        </div>
+
+        <div class="project-category" data-title="Programs" data-color="#4cc9f0">
+          <div class="card">
+            <img
+              src="https://st3.depositphotos.com/13324256/16927/i/600/depositphotos_169279508-stock-photo-arranged-architectural-equipment.jpg"
+              alt="program">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+          </div>
+          <div class="card">
+            <img
+              src="https://st3.depositphotos.com/10654624/13553/i/600/depositphotos_135539138-stock-photo-male-architect-with-blueprints.jpg"
+              alt="program">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+          </div>
+        </div>
+
+        <div class="project-category" data-title="Automation" data-color="#ffb703">
+          <div class="card">
+            <img
+              src="https://static8.depositphotos.com/1007080/1005/i/600/depositphotos_10052122-stock-photo-cottage.jpg"
+              alt="automation">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+          </div>
+          <div class="card">
+            <img
+              src="https://static8.depositphotos.com/1007080/1005/i/600/depositphotos_10052122-stock-photo-cottage.jpg"
+              alt="automation">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div class="contact-container">
+      <h1>Contact</h1>
+      <p>Benimle iletişime geçmek için formu doldurabilir veya sosyal medya hesaplarımdan ulaşabilirsiniz.</p>
+
+      <form class="contact-form">
+        <input type="text" name="name" placeholder="Adınız" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <textarea name="message" placeholder="Mesajınız" rows="5" required></textarea>
+        <button type="submit">Gönder</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+
+  <!-- Senin script dosyan -->
+  <script src="script.js"></script>
 </body>
 
 </html>
