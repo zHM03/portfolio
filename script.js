@@ -43,19 +43,18 @@ window.addEventListener('resize', () => {
   initStars();
 });
 
+
+
 // ========================= Hero Section =========================
-gsap.from(".main-header", { opacity: 0, y: 50, duration: 1.5, delay: 1, ease: "power3.out" });
 gsap.from(".text-block h2", { opacity: 0, y: 50, duration: 1.5, delay: 1, ease: "power3.out" });
 gsap.from(".text-block p", { opacity: 0, x: -100, duration: 1.5, delay: 1.5, ease: "power3.out" });
 gsap.from(".image-block img", { opacity: 0, scale: 0.8, duration: 1.5, delay: 1, ease: "back.out(1.7)" });
-gsap.from(".svg-frame", { opacity: 0, scale: 0.8, duration: 1.5, delay: 1, ease: "back.out(1.7)" });
 
 const mainTitle = document.querySelector('.main-title');
 
-// Ekran genişliği 500px altındaysa kelimeye dönüştür
-let splitType = window.innerWidth < 500 ? 'words' : 'chars';
-let mySplitText = new SplitText(mainTitle, { type: splitType });
-let elements = mySplitText[splitType];
+// Her zaman karakter karakter parçala
+let mySplitText = new SplitText(mainTitle, { type: "chars" });
+let elements = mySplitText.chars;
 
 gsap.from(elements, {
   yPercent: 100,
@@ -63,8 +62,31 @@ gsap.from(elements, {
   rotationX: -90,
   stagger: 0.03,
   ease: "back.out(1.7)",
-  duration: 1
+  duration: 1,
+  onComplete: () => {
+    // İlk animasyon bitince 2 saniye bekle ve ardından startLoop'u başlat
+    setTimeout(startLoop, 2000);
+  }
 });
+
+// Sonsuz zıplama animasyonu: harfler tek tek yukarı çıkıp iniyor
+function startLoop() {
+  gsap.to(elements, {
+    y: "-=20",           // yukarı çıkma miktarı
+    stagger: {
+      each: 0.05,         // her harf arasında gecikme
+      repeat: 1,         // geri dönmesini sağlıyor
+      yoyo: true,
+      stagger: 0.03,
+
+    },
+    ease: "power1.inOut",
+    onComplete: () => {
+      // 2 saniye bekledikten sonra tekrar başlat
+      setTimeout(startLoop, 4000);
+    }
+  });
+}
 
 gsap.to(".social-box", {
   opacity: 1,
@@ -74,143 +96,246 @@ gsap.to(".social-box", {
   ease: "back.out(1.7)"
 });
 
-// ========================= About-Skills Section =========================
+//========================== I'M =========================
 
-// Skills rengi soldan sağa
-const skillsSection = document.querySelector('.skills-section');
+const roles = [
+  "Web Designer",
+  "UI/UX Enthusiast",
+  "Creative Coder",
+  "Front-End Developer",
+  "Full-Stack Developer"
+];
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      skillsSection.classList.add('skills-animate');
-      observer.unobserve(skillsSection); // sadece bir kez çalışsın
+let index = 0;
+const roleElement = document.getElementById("role");
+const prefix = "Hello, I'm a "; // Sabit kısım
+
+function animateRole() {
+  const nextRole = roles[index];
+
+  // Önce mevcut harfleri span olarak ayır
+  let currentText = roleElement.textContent.substring(prefix.length);
+  roleElement.innerHTML = prefix + currentText.split("").map(char => `<span>${char}</span>`).join("");
+  const oldLetters = roleElement.querySelectorAll("span");
+
+  // Timeline oluştur
+  const tl = gsap.timeline({
+    onComplete: () => {
+      // Yeni rol için harfleri span ile ayır ve opacity=0 yap
+      roleElement.innerHTML = prefix + nextRole.split("").map(char => `<span style="opacity:0">${char}</span>`).join("");
+      const newLetters = roleElement.querySelectorAll("span");
+
+      // Yeni harfleri yaz
+      gsap.to(newLetters, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.05,
+        duration: 1,
+        ease: "power1.out",
+        onComplete: () => {
+          // 1.5 saniye bekleyip sonraki metne geç
+          index = (index + 1) % roles.length;
+          setTimeout(animateRole, 3000);
+        }
+      });
     }
   });
-}, { threshold: 0.2 }); // section %50 görünür olunca tetiklenecek
 
-observer.observe(skillsSection);
+  // Mevcut harfleri sil
+  tl.to(oldLetters, {
+    opacity: 0,
+    y: -10,
+    stagger: { each: 0.03, from: "end" },
+    duration: 0.3,
+    ease: "power1.in"
+  });
+}
 
-// ========================= Kaydırma =========================
+// Başlat
+setTimeout(animateRole, 3000);
 
-document.addEventListener("DOMContentLoaded", () => {
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+// ========================= About-Skills Section =========================
 
-    const sections = gsap.utils.toArray("section");
-    const leftSection = document.querySelector(".project-section .left");
-    const rightSection = document.querySelector(".project-section .right");
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
-    let isAnimating = false;
-    let atBottomEdge = false;
-    let atTopEdge = false;
-    let scrollQueue = 0;
-    let isTicking = false;
+document.fonts.ready.then(() => {
+  // SplitText oluştur
+  const split = new SplitText(".skills-section", {
+    type: "lines,words",
+    linesClass: "line"
+  });
 
-    // ---------------- ScrollTrigger ile section kaydırma ----------------
-    sections.forEach((section, i) => {
-        if (i < sections.length - 1) {
-            ScrollTrigger.create({
-                trigger: section,
-                start: "bottom bottom",
-                end: "bottom top",
-                onEnter: () => scrollToSection(i + 1),
-                onEnterBack: () => scrollToSection(i)
-            });
-        }
-    });
+  // Satırları başlangıçta gizle
+  gsap.set(split.lines, { yPercent: 100, opacity: 0 });
 
-    function scrollToSection(index) {
-        if (isAnimating || index < 0 || index >= sections.length) return;
-        isAnimating = true;
-        gsap.to(window, {
-            duration: 1.2,
-            scrollTo: { y: sections[index], autoKill: false },
-            ease: "power2.inOut",
-            overwrite: "auto",
-            onComplete: () => isAnimating = false
-        });
+  // ScrollTrigger animasyonu
+  gsap.to(split.lines, {
+    yPercent: 0,
+    opacity: 1,
+    stagger: 0.5,
+    duration: 0.6,
+    ease: "expo.out",
+    scrollTrigger: {
+      trigger: ".skills-section",
+      start: "top 50%",
+      end: "bottom 70%",
+      toggleActions: "play reverse play reverse"
     }
+  });
+});
 
-    // ---------------- Sol alan scroll -> sağ kart scroll ----------------
-    leftSection.addEventListener("wheel", (e) => {
-        e.preventDefault();
-        scrollQueue += e.deltaY;
 
-        if (!isTicking) {
-            requestAnimationFrame(() => {
-                handleLeftScroll(scrollQueue);
-                scrollQueue = 0;
-                isTicking = false;
-            });
-            isTicking = true;
-        }
-    });
+// ========================= About =========================
 
-    function handleLeftScroll(scrollAmount) {
-        const maxScroll = rightSection.scrollHeight - rightSection.clientHeight;
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
-        // Kart en altta ve aşağı scroll yapılmışsa
-        if (scrollAmount > 0 && rightSection.scrollTop >= maxScroll) {
-            if (atBottomEdge) {
-                const nextIndex = sections.indexOf(document.querySelector(".project-section")) + 1;
-                scrollToSection(nextIndex);
-            }
-            atBottomEdge = true;
-        }
-        // Kart en üstte ve yukarı scroll yapılmışsa
-        else if (scrollAmount < 0 && rightSection.scrollTop <= 0) {
-            if (atTopEdge) {
-                const prevIndex = sections.indexOf(document.querySelector(".project-section")) - 1;
-                scrollToSection(prevIndex);
-            }
-            atTopEdge = true;
-        }
-        // Kart hâlâ kayabiliyorsa
-        else {
-            gsap.to(rightSection, {
-                scrollTop: rightSection.scrollTop + scrollAmount,
-                duration: 0.5,
-                ease: "power2.out"
-            });
-            atBottomEdge = false;
-            atTopEdge = false;
-        }
+document.fonts.ready.then(() => {
+  // SplitText oluştur
+  const split = new SplitText(".about-me, .about-title", {
+    type: "lines,words",
+    linesClass: "line"
+  });
+
+  // Satırları başlangıçta gizle
+  gsap.set(split.lines, { yPercent: 100, opacity: 0 });
+
+  // ScrollTrigger animasyonu
+  gsap.to(split.lines, {
+    yPercent: 0,
+    opacity: 1,
+    stagger: 0.1,
+    duration: 0.6,
+    ease: "expo.out",
+    scrollTrigger: {
+      trigger: ".about-section",
+      start: "top 50%",
+      end: "bottom 70%",
+      toggleActions: "play reverse play reverse"
     }
+  });
+});
+
+//===================================================================
+
+gsap.registerPlugin(SplitText, ScrollTrigger);
+
+document.fonts.ready.then(() => {
+  // SplitText oluştur
+  const split = new SplitText(".projects-section", {
+    type: "lines,words",
+    linesClass: "line"
+  });
+
+  // Satırları başlangıçta gizle
+  gsap.set(split.lines, { yPercent: 100, opacity: 0 });
+
+  // ScrollTrigger animasyonu
+  gsap.to(split.lines, {
+    yPercent: 0,
+    opacity: 1,
+    stagger: 0.5,
+    duration: 0.6,
+    ease: "expo.out",
+    scrollTrigger: {
+      trigger: ".projects-section",
+      start: "top 50%",
+      end: "bottom 70%",
+    }
+  });
 });
 
 //======================= Kategori Animasyonu =======================
 
-const categorySpans = document.querySelectorAll(".categories span");
-const projectCategories = document.querySelectorAll(".project-category");
-const rightSection = document.querySelector(".project-section .right");
+gsap.registerPlugin(Draggable, InertiaPlugin);
 
-function updateActiveCategory() {
-    const containerRect = rightSection.getBoundingClientRect();
-    const containerMiddle = containerRect.top + containerRect.height / 2;
+const wrapper = document.querySelector(".projects-cards-wrapper");
+const cardsContainer = document.querySelector(".projects-cards");
+const allCards = document.querySelectorAll(".projects-cards .card");
 
-    projectCategories.forEach(category => {
-        const rect = category.getBoundingClientRect();
-        // Container ortasına göre kontrol
-        if (rect.top < containerMiddle && rect.bottom > containerMiddle) {
-            // Önce tüm span'ları resetle
-            categorySpans.forEach(span => {
-                span.style.transform = "scale(1)";
-                span.style.color = "";
-                span.style.transition = "all 0.3s"; // smooth geçiş
-            });
+const headerTitle = document.querySelector(".projects-categories");
 
-            // Aktif span
-            const title = category.dataset.title;
-            const activeSpan = Array.from(categorySpans).find(s => s.textContent.trim() === title);
-            if (activeSpan) {
-                activeSpan.style.transform = "scale(1.3)";
-                activeSpan.style.color = category.dataset.color;
-            }
+const categoryColors = {
+  "Websites": "#ff5959ff",
+  "Programs": "#4ecdc4",
+  "Automation": "#feca57"
+};
+
+// Başlangıçta Websites ve rengi
+headerTitle.innerHTML = `<span class="category-span active">Websites</span>`;
+headerTitle.querySelector(".category-span").style.color = categoryColors["Websites"];
+
+const maxScroll = cardsContainer.scrollWidth - wrapper.offsetWidth;
+
+Draggable.create(cardsContainer, {
+  type: "x",
+  bounds: { minX: -maxScroll, maxX: 0 },
+  inertia: true,
+  edgeResistance: 0.65,
+  cursor: "grab",
+  activeCursor: "grabbing",
+  onDrag: updateCategory,
+  onThrowUpdate: updateCategory
+});
+
+function updateCategory() {
+  const wrapperBounds = wrapper.getBoundingClientRect();
+  const centerX = wrapperBounds.left + wrapperBounds.width / 2;
+
+  let closestCard = null;
+  let closestDistance = Infinity;
+
+  allCards.forEach(card => {
+    const cardBounds = card.getBoundingClientRect();
+    const cardCenter = cardBounds.left + cardBounds.width / 2;
+    const distance = Math.abs(centerX - cardCenter);
+
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestCard = card;
+    }
+  });
+
+  if (closestCard) {
+    const category = capitalize(closestCard.dataset.category);
+    const currentText = headerTitle.textContent.trim();
+
+    if (currentText !== category) {
+      gsap.to(headerTitle, {
+        opacity: 0,
+        duration: 0.2,
+        onComplete: () => {
+          headerTitle.innerHTML = `<span class="category-span active">${category}</span>`;
+          headerTitle.querySelector(".category-span").style.color = categoryColors[category] || "#fff";
+          gsap.to(headerTitle, { opacity: 1, duration: 0.3 });
         }
-    });
+      });
+    }
+  }
 }
 
-// Sağ kart scroll'u izleme
-rightSection.addEventListener("scroll", updateActiveCategory);
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
-// Başlangıçta da çalıştır
-updateActiveCategory();
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    const url = card.getAttribute('data-link');
+    if (url) {
+      window.open(url, '_blank'); // Yeni sekmede açmak için _blank, aynı sekmede açmak için _self
+    }
+  });
+});
+
+//============= Kaydırma Animasyonu ==============
+
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+ScrollSmoother.create({
+  smooth: 1,
+  effects: true,
+  smoothTouch: 0.1,
+  speed: 1.5,
+});
+
+
+
