@@ -217,32 +217,32 @@ document.fonts.ready.then(() => {
 
 //===================================================================
 
-gsap.registerPlugin(SplitText, ScrollTrigger);
+// gsap.registerPlugin(SplitText, ScrollTrigger);
 
-document.fonts.ready.then(() => {
-  // SplitText oluştur
-  const split = new SplitText(".projects-section", {
-    type: "lines,words",
-    linesClass: "line"
-  });
+// document.fonts.ready.then(() => {
+//   // SplitText oluştur
+//   const split = new SplitText(".projects-section", {
+//     type: "lines,words",
+//     linesClass: "line"
+//   });
 
-  // Satırları başlangıçta gizle
-  gsap.set(split.lines, { yPercent: 100, opacity: 0 });
+//   // Satırları başlangıçta gizle
+//   gsap.set(split.lines, { yPercent: 100, opacity: 0 });
 
-  // ScrollTrigger animasyonu
-  gsap.to(split.lines, {
-    yPercent: 0,
-    opacity: 1,
-    stagger: 0.5,
-    duration: 0.6,
-    ease: "expo.out",
-    scrollTrigger: {
-      trigger: ".projects-section",
-      start: "top 50%",
-      end: "bottom 70%",
-    }
-  });
-});
+//   // ScrollTrigger animasyonu
+//   gsap.to(split.lines, {
+//     yPercent: 0,
+//     opacity: 1,
+//     stagger: 0.5,
+//     duration: 0.6,
+//     ease: "expo.out",
+//     scrollTrigger: {
+//       trigger: ".projects-section",
+//       start: "top 50%",
+//       end: "bottom 70%",
+//     }
+//   });
+// });
 
 //======================= Kategori Animasyonu =======================
 
