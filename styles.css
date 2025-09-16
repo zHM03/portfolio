@@ -6,6 +6,11 @@
   box-sizing: border-box;
 }
 
+:root {
+  color-scheme: dark;
+  forced-color-adjust: none; /* tarayıcı zorlamasını kapat */
+}
+
 html,
 body {
   margin: 0;
@@ -756,5 +761,13 @@ body {
 
   .card-overlay {
     padding: 15px;
+  }
+}
+
+@media (forced-colors: active) {
+  .image-block img {
+    forced-color-adjust: none;
+    border: 5px solid #fff !important;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5) !important;
   }
 }
