@@ -151,7 +151,6 @@ body {
   min-height: 75vh;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   width: 100%;
   flex-wrap: wrap;
   /* küçük ekranlarda alt alta geçiş için */
@@ -448,8 +447,8 @@ body {
 
 .card {
   position: relative;
-  width: 380px;
-  height: 580px;
+  width: 300px;
+  height: 500px;
   border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
